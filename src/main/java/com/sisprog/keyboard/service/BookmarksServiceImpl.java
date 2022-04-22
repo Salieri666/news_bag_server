@@ -16,13 +16,13 @@ public class BookmarksServiceImpl implements BookmarksService {
     private final BookmarksDao bookmarksDao;
 
     @Override
-    public List<BookmarkDto> getAll() {
-        return bookmarksDao.getAllBookmarks().stream().map(BookmarkDto::of).collect(Collectors.toList());
+    public List<BookmarkDto> getAll(Long userId) {
+        return bookmarksDao.getAllBookmarks(userId).stream().map(BookmarkDto::of).collect(Collectors.toList());
     }
 
     @Override
-    public BookmarkDto getByUrl(String url) {
-        return BookmarkDto.of(bookmarksDao.findBookmarkByUrl(url).orElse(new Bookmark()));
+    public BookmarkDto getById(Long id) {
+        return BookmarkDto.of(bookmarksDao.findBookmarkById(id).orElse(new Bookmark()));
     }
 
     @Override

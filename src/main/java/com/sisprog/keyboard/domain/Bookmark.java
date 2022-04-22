@@ -34,4 +34,7 @@ public class Bookmark {
     @Column( name = "created_date")
     private Long createdDate;
 
+    @Column( name = "user_id")
+    private Long userId;
+
 }

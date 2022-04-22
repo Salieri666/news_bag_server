@@ -13,6 +13,7 @@ public class BookmarkDto {
     private String source;
     private Long sourceDate;
     private Long createdDate;
+    private Long userId;
 
     public static Bookmark of(BookmarkDto dto) {
         Bookmark entity = new Bookmark();
@@ -23,6 +24,7 @@ public class BookmarkDto {
         entity.setSource(dto.getSource());
         entity.setSourceDate(dto.getSourceDate());
         entity.setCreatedDate(dto.getCreatedDate());
+        entity.setUserId(dto.getUserId());
         return entity;
     }
 
@@ -35,6 +37,7 @@ public class BookmarkDto {
         dto.setSource(entity.getSource());
         dto.setSourceDate(entity.getSourceDate());
         dto.setCreatedDate(entity.getCreatedDate());
+        dto.setUserId(entity.getUserId());
         return dto;
     }
 

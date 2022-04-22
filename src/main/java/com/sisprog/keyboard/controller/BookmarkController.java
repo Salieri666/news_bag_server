@@ -16,14 +16,14 @@ public class BookmarkController {
 
     private final BookmarksService bookmarksService;
 
-    @GetMapping(value = "/getAll", produces = APPLICATION_JSON_VALUE)
-    public List<BookmarkDto> getAll() {
-        return bookmarksService.getAll();
+    @GetMapping(value = "/getAll/{userId}", produces = APPLICATION_JSON_VALUE)
+    public List<BookmarkDto> getAll(@PathVariable("userId") Long id) {
+        return bookmarksService.getAll(id);
     }
 
-    @GetMapping(value = "/getByUrl/{url}", produces = APPLICATION_JSON_VALUE)
-    public BookmarkDto getByUrl(@PathVariable("url") String url) {
-        return bookmarksService.getByUrl(url);
+    @GetMapping(value = "/getById/{id}", produces = APPLICATION_JSON_VALUE)
+    public BookmarkDto getByUrl(@PathVariable("id") Long id) {
+        return bookmarksService.getById(id);
     }
 
     @PutMapping(value = "/save", produces = APPLICATION_JSON_VALUE)

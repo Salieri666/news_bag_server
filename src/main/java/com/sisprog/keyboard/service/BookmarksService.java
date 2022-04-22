@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface BookmarksService {
 
-    List<BookmarkDto> getAll();
+    List<BookmarkDto> getAll(Long userId);
 
-    BookmarkDto getByUrl(String url);
+    BookmarkDto getById(Long id);
 
     BookmarkDto save(BookmarkDto bookmarkDto);
 
