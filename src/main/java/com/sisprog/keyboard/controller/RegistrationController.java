@@ -6,6 +6,7 @@ import com.sisprog.keyboard.domain.User;
 import com.sisprog.keyboard.dto.AuthRequestDto;
 import com.sisprog.keyboard.security.JwtTokenProvider;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -42,8 +43,10 @@ public class RegistrationController {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    @ApiOperation(value = "Зарегистрировать пользователя", notes = "Добавить пользователя с полученными данными")
-    @ApiImplicitParam(name = "request", value = "User Data", required = true, dataType = "AuthRequestDto", paramType = "requestDto")
+    @ApiOperation(value = "Registration", notes = "Registration for new user")
+    @ApiImplicitParams(
+            {@ApiImplicitParam(name = "requestDto", paramType = "requestDto", required = true, type = "AuthRequestDto", value = "Registration for new users")}
+    )
     @PostMapping
     public ResponseEntity<Map<Object, Object>> reg(@RequestBody AuthRequestDto requestDto) {
         if (requestDto != null) {
