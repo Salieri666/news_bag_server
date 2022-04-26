@@ -38,6 +38,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+    private static final String[] AUTH_WHITELIST = {
+            // -- Swagger UI v2
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            // -- Swagger UI v3 (OpenAPI)
+            "/v3/api-docs/**",
+            "/swagger-ui/**"
+            // other public endpoints of your API may be appended to this array
+    };
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -49,7 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 // configure access rules
                 .antMatchers(HttpMethod.POST, "/api/login","/api/registration").permitAll()
-                .anyRequest().authenticated()
+                .antMatchers(AUTH_WHITELIST).permitAll()
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider));
     }
