@@ -1,9 +1,12 @@
 package com.sisprog.keyboard.controller;
 
+import com.sisprog.keyboard.config.SwaggerConfig;
 import com.sisprog.keyboard.dao.UserDao;
 import com.sisprog.keyboard.domain.User;
 import com.sisprog.keyboard.dto.AuthRequestDto;
+import com.sisprog.keyboard.dto.ResponseDto;
 import com.sisprog.keyboard.security.JwtTokenProvider;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -19,9 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.HashMap;
-import java.util.Map;
-
+@Api(value = "AuthenticationController", tags = {SwaggerConfig.AUTH_TAG})
 @RestController
 @RequestMapping(value = "api/login")
 public class AuthenticationController {
@@ -38,12 +39,12 @@ public class AuthenticationController {
         this.userService = userService;
     }
 
-    @ApiOperation(value = "Login", notes = "Login for user")
+    @ApiOperation(value = "Login for existing user", response = ResponseDto.class)
     @ApiImplicitParams(
-            {@ApiImplicitParam(name = "requestDto", paramType = "requestDto", required = true, type = "AuthRequestDto", value = "Login for users")}
+            {@ApiImplicitParam(name = "requestDto", paramType = "AuthRequestDto", dataType = "AuthRequestDto", required = true, type = "AuthRequestDto", value = "Login for users")}
     )
     @PostMapping()
-    public ResponseEntity<Map<Object, Object>> login(@RequestBody AuthRequestDto requestDto) {
+    public ResponseEntity<ResponseDto> login(@RequestBody AuthRequestDto requestDto) {
         if (requestDto != null) {
             try {
                 String username = requestDto.getUsername();
@@ -56,13 +57,9 @@ public class AuthenticationController {
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, requestDto.getPassword()));
 
                 String token = jwtTokenProvider.createToken(username, user.getRoleList());
+                ResponseDto responseDto = new ResponseDto(username, "Bearer_" + token, user.getId());
 
-                Map<Object, Object> response = new HashMap<>();
-                response.put("username", username);
-                response.put("token", "Bearer_" + token);
-                response.put("id", user.getId());
-
-                return ResponseEntity.ok(response);
+                return ResponseEntity.ok(responseDto);
             } catch (AuthenticationException e) {
                 e.printStackTrace();
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);

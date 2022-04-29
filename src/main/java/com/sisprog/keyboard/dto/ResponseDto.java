@@ -8,9 +8,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthRequestDto {
+public class ResponseDto {
     @ApiModelProperty(notes = "Username of the user", name = "username", required = true, value = "user123", example = "user123")
     private String username;
-    @ApiModelProperty(notes = "Password of the user", name = "password", required = true, value = "pass123", example = "pass123")
-    private String password;
+    @ApiModelProperty(notes = "Access token", name = "token", required = true, value = "Bearer_token", example = "Bearer_token")
+    private String token;
+    @ApiModelProperty(notes = "User id", name = "id", required = true, value = "123", example = "123")
+    private Long id;
 }
